@@ -1,0 +1,26 @@
+{
+  "name": "hangman",
+  "version": "1.0.0",
+  "description": "hangman game in node",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liztrenholme/node-hangman.git"
+  },
+  "keywords": [
+    "node",
+    "hangman"
+  ],
+  "author": "Liz T",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liztrenholme/node-hangman/issues"
+  },
+  "homepage": "https://github.com/liztrenholme/node-hangman#readme",
+  "dependencies": {
+    "inquirer": "^5.2.0"
+  }
+}
