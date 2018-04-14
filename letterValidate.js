@@ -14,34 +14,27 @@
 */
 
 
-
-console.log("Letter validate here!");
-
-//var input = process.argv[2].toUpperCase();
-
-var inquirer = require("inquirer");
-var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(" ");
-
-function validateLetter() {
-    inquirer.prompt([{
-            letter: "letter".toUpperCase(),
-            message: "Guess a letter!",
-            validate: function(value) {
-                if (alphabet.indexOf(letter) === -1) {
-                    return false;
-                }
-                return true;
-            }
-        }
-    ]).then(function(answers) {
-      console.log(letter);
-
-});
-  }
-// } else {
-//   // starts first round
-//   playGame(0);
-// };
+//var letter = process.argv[2].toUpperCase();
+//console.log("Letter validate here!");
 
 
-module.exports = (validateLetter);
+var Letter = function(letter) { //builds the letter constructor
+    this.letter = letter;
+    this.correct = false;
+    this.showLetter = function() {
+    if(this.letter == " "){ 
+      this.correct = true;
+      return " ";
+    }
+    if (this.correct === false){ 
+      return " _ ";
+    } else{
+      return this.letter;
+    }
+
+  };
+};
+
+ //   console.log(letter);
+
+module.exports = Letter;
