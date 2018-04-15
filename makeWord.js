@@ -12,10 +12,11 @@ var Letter = require('./letterValidate.js');
 // word constructor
 function Word(word, spacedWord, letters, guessedLetters) {
     var thisWord = this;
+    console.log(this);
     this.word = word;
     this.spacedWord = spacedWord; // needs for loop to loop through and add spaces to word
-    this.letters = []; // function to loop through and find correct letters?
-    this.guessedLetters = []; // stores guessed letters into this array and validate filters them out if guessed
+    this.letters = [];
+    this.guessedLetters = []; // stores guessed letters into this array
     this.wordCorrect = false;
     this.getLets = function() {
         for (var i = 0; i < thisWord.word.length; i++) { //puts new Letter objects in for the word
@@ -23,11 +24,11 @@ function Word(word, spacedWord, letters, guessedLetters) {
             this.letters.push(newLetter);
         }
     };
-    this.letterCorrect = function(letterGuessed) {
+    this.letterCorrect = function(guess) {
         var match = 0;
         //iterates through each letter to see if it matches the guessed letter
         this.letters.forEach(function(letter) {
-            if (letter.letter === letterGuessed) {
+            if (letter.letter === guess) {
                 letter.correct = true;
                 match++;
             }
@@ -36,14 +37,10 @@ function Word(word, spacedWord, letters, guessedLetters) {
         return match;
     };
     this.showWord = function() {
-        var display = '';
         //render the word based on if letters are found or not
-        that.letters.forEach(function(letter) {
+        this.letters.forEach(function(letter) {
             var currentLetter = letter.showLetter();
-            display += currentLetter;
         });
-
-        return display;
     };
     //if the current word was guessed
     this.wordGuessed = function() {

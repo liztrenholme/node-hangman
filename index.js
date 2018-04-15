@@ -20,20 +20,25 @@ var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(" ");
 var words = ["ZEBRA", "CHEETAH", "ELEPHANT", "TIGER", "MONKEY", "LEMUR", "LEOPARD", "OCTOPUS", "WOLF", "RHINOCEROS", "GIRAFFE", "FLAMINGO", "PORCUPINE", "LION"];
 var wordNum = Math.floor(Math.random() * words.length);
 var word = words[wordNum];
-
+var guessedLetters = [];
 //console.log(words.length);
 
-var game = {
+function startGame() {
+    //console.log(this);
+    //clears guessedLetters before a new game starts if it's not already empty.
+    if (guessedLetters.length > 0) {
+        guessedLetters = [];
+    }
+    game.gamePlay();
+}
 
+var game = {
     //game: this,
     guessesLeft: 10,
-    guessedLetters: [],
     currentWord: word,
-    
-
-    gamePlay: function(game, guessedLetters, input) {
+    gamePlay: function() {
         var thisgame = this;
-        guessedLetters: [],
+        //    guessedLetters: [],
         inquirer.prompt([{
             name: "guess",
             type: "input",
@@ -46,18 +51,19 @@ var game = {
                 }
             }
         }]).then(function(letter) {
-        	console.log(game.guessedLetters);
+            console.log(guessedLetters);
             var showLetter = (letter.guess).toUpperCase();
             var guessedAlready = false;
-            for (var i = 0; i < game.guessedLetters.length; i++) {
-                if (showLetter === game.guessedLetters[i]) {
+            for (var i = 0; i < guessedLetters.length; i++) {
+                if (showLetter === guessedLetters[i]) {
                     guessedAlready = true;
+                    game.gamePlay();
                 }
             }
             if (guessedAlready === false) {
-                game.guessedLetters.push(showLetter);
+                guessedLetters.push(showLetter);
 
-                if (game.currentWord.letterGuessed(showLetter) === 0) {
+                if (game.currentWord.letters === 0) {
                     console.log("Wrong!");
                     game.guessesLeft--;
                     console.log("Guesses left: " + game.guessesLeft + "\n-------------------" + game.currentWord.showWord() + "\n-------------------" + "Letters guessed: " + game.guessedLetters);
@@ -71,7 +77,7 @@ var game = {
                         console.log("Guesses left: " + game.guessesLeft + game.currentWord.showWord() + "\n------------------" + "Letters guessed: " + game.guessedLetters);
                     }
                 }
-                if (game.guessesLeft > 0 && game.currentWord.wordFound === false) {
+                if (game.guessesLeft > 0 && game.currentWord.wordGuessed === false) {
                     game.gamePlay();
                 } else if (game.guessesLeft === 0) {
                     console.log("You lose. \nIt was: " + game.currentWord.word);
@@ -82,14 +88,6 @@ var game = {
             }
         });
     },
-    startGame: function() {
-        console.log(this);
-        //clears guessedLetters before a new game starts if it's not already empty.
-        if (this.guessedLetters.length > 0) {
-            this.guessedLetters = [];
-        }
-        game.gamePlay();
-    }
-};
 
-game.startGame();
+};
+startGame();
