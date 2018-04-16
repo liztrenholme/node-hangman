@@ -14,7 +14,7 @@
 var inquirer = require("inquirer");
 var Word = require("./makeWord");
 //var Letter = require("./letterValidate");
-var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(" ");
+var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var words = ["ZEBRA", "CHEETAH", "ELEPHANT", "TIGER", "MONKEY", "LEMUR", "LEOPARD", "OCTOPUS", "WOLF", "RHINOCEROS", "GIRAFFE", "FLAMINGO", "PORCUPINE", "LION"];
 var wordNum = Math.floor(Math.random() * words.length);
 var word = words[wordNum];
@@ -22,20 +22,20 @@ var guessesLeft = 15;
 var guessedLetters = [];
 //console.log(words.length);
 
-var currentWord = new Word(word);
-
-console.log(currentWord);
+//console.log(currentWord);
 //console.log(letter.showLetter);
 //console.log(Letter.letter);
 
 function game() {
+	var currentWord = new Word(word);
+	console.log(currentWord);
     inquirer.prompt([{
         type: "input",
         name: "guess",
         message: "Guess a letter!",
-        validate: function(value) {
-        	var val = value.toUpperCase();
-            if (alphabet.indexOf(val) === false) {
+        validate: function(value) { //checks to make sure guess is letter
+            var val = value.toUpperCase(); // converts all to upper case to match letters in word
+            if (alphabet.includes(val) === false) {
                 return false;
             } else {
                 return true;
@@ -43,39 +43,59 @@ function game() {
         }
     }]).then(function(inquirerResponse) {
         console.log(inquirerResponse.guess);
-        var letter = inquirerResponse.guess.toUpperCase();
+
+        
+        letter = inquirerResponse.guess.toUpperCase();
         console.log(currentWord.word);
-        //var showLetter = (letter.name).toLowerCase();
         var guessedAlready = false;
-        for (var i = 0; i < guessedLetters.length; i++) {
-            if (letter === guessedLetters[i]) {
-                guessedAlready = true;
-            }
-        }
+        // for (var i = 0; i < guessedLetters.length; i++) {
+        //     if (letter === guessedLetters[i]) {
+        //         guessedAlready = true;
+        //     }
+        // }
         if (guessedAlready === false && currentWord.word.includes(letter)) {
             guessedLetters.push(letter);
+            // currentWord.guessedLetters.push(letter);
             console.log("Guessed already: " + guessedLetters);
             console.log("Correct!");
+            checkWin();
             game();
         } else if (guessedAlready === false && !currentWord.word.includes(letter)) {
-        	guessesLeft--;
-        	console.log("Wrong! Guesses left: " + guessesLeft);
-        	game();
-        }
-        else if (guessedAlready === true) {
+            guessesLeft--;
+            guessedLetters.push(letter);
+            console.log("Guessed already: " + guessedLetters);
+            console.log("Wrong! Guesses left: " + guessesLeft);
+            game();
+        } else if (guessedAlready === true) {
             console.log("You've already guessed that!");
             game();
         }
-        // if () {
-            
-        // }
-        //var letter = new Letter(inquirerResponse.name);
-        // console.log(letter);
+
+        if (guessesLeft === 0) {
+            console.log("Game over. The word was " + currentWord.word);
+            inquirer.prompt([{
+                type: "confirm",
+                name: "again",
+                message: "Play again?",
+            }]).then(function(confirm) {
+                guessesLeft = 15;
+                game();
+            });
+        }
+
+        function checkWin(guessedLetters, currentWord) {
+        	console.log(guessedLetters);
+    	// for (var i = 0; i < guessedLetters.length; i++) {
+    	// 	if (currentWord.word.includes(i)) {
+    	// 		currentWord.guessedLetters.push(i);
+    	// 	}
+    	//}
+    // if (guessedAlready.includes(currentWord.word.split(" ")) && guessesLeft > 0) {
+    // 	console.log("You win!");
+    // }
+    }
     });
+    
 };
-// calls game as long 
-if (guessesLeft === 0) {
-    console.log("Game over.  The word was " + currentWord);
-    guessesLeft = 15;
-}
+
 game();

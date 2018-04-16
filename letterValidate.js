@@ -15,7 +15,7 @@
 
 
 //var letter = process.argv[2].toUpperCase();
-console.log("Letter validate here!");
+//console.log("Letter validate here!");
 
 
 var Letter = function(letter) { //builds the letter constructor
