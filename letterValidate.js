@@ -15,26 +15,25 @@
 
 
 //var letter = process.argv[2].toUpperCase();
-//console.log("Letter validate here!");
+console.log("Letter validate here!");
 
 
 var Letter = function(letter) { //builds the letter constructor
     this.letter = letter;
     this.correct = false;
     this.showLetter = function() {
-    if(this.letter == " "){ 
+    if (this.letter == " ") { 
       this.correct = true;
       return " ";
     }
-    if (this.correct === false){ 
+    if (this.correct === false) { 
       return " _ ";
-    } else{
+    } else {
       return this.letter;
     }
 
   };
 };
-
- //   console.log(letter);
+//   console.log(letter);
 
 module.exports = Letter;
