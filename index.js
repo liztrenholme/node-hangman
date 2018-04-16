@@ -33,43 +33,49 @@ function game() {
         type: "input",
         name: "guess",
         message: "Guess a letter!",
-        // validate: function(value) {
-        //     if (alphabet.indexOf(letter) === false) {
-        //         return false;
-        //     } else {
-        //         return true;
-        //     }
-        // }
+        validate: function(value) {
+        	var val = value.toUpperCase();
+            if (alphabet.indexOf(val) === false) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }]).then(function(inquirerResponse) {
-    	console.log(inquirerResponse.guess);
-        var letter = inquirerResponse.guess;
+        console.log(inquirerResponse.guess);
+        var letter = inquirerResponse.guess.toUpperCase();
+        console.log(currentWord.word);
         //var showLetter = (letter.name).toLowerCase();
         var guessedAlready = false;
         for (var i = 0; i < guessedLetters.length; i++) {
-                if (letter === guessedLetters[i]) {
-                    guessedAlready = true;
-                }
+            if (letter === guessedLetters[i]) {
+                guessedAlready = true;
             }
-            if (guessedAlready === false) {
-                guessedLetters.push(letter);
-                console.log("Guessed already: " + guessedLetters);
-                game();
-            }
-            else if (guessedAlready === true) {
-            	console.log("You already guessed that!");
-            	game();
-            }
-            // if (currentWord.includes(letter)) {
-            // 	console.log("Correct!");
-            // }
+        }
+        if (guessedAlready === false && currentWord.word.includes(letter)) {
+            guessedLetters.push(letter);
+            console.log("Guessed already: " + guessedLetters);
+            console.log("Correct!");
+            game();
+        } else if (guessedAlready === false && !currentWord.word.includes(letter)) {
+        	guessesLeft--;
+        	console.log("Wrong! Guesses left: " + guessesLeft);
+        	game();
+        }
+        else if (guessedAlready === true) {
+            console.log("You've already guessed that!");
+            game();
+        }
+        // if () {
+            
+        // }
         //var letter = new Letter(inquirerResponse.name);
-       // console.log(letter);
+        // console.log(letter);
     });
 };
 // calls game as long 
-if (guessesLeft > 0) {
-    game();
+if (guessesLeft === 0) {
+    console.log("Game over.  The word was " + currentWord);
+    guessesLeft = 15;
 }
-    else {
-    	console.log("Game over.  The word was " + currentWord);
-    }
+game();

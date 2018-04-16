@@ -16,9 +16,9 @@ function Word(word, spacedWord, letters, guessedLetters) {
     this.word = word;
     // this.spacedWord = function(word) {
     // 	for (i = 0; i < word.length; i++) {
-    		
+
     // 	}
-    }; // needs for loop to loop through and add spaces to word
+    //}; // needs for loop to loop through and add spaces to word
     this.letters = [];
     this.guessedLetters = []; // stores guessed letters into this array
     this.wordCorrect = false;
