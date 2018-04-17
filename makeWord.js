@@ -19,13 +19,14 @@ function Word(word, spacedWord, letters, guessedLetters) {
     this.spacedWord = function(word) {
     	for (i = 0; i < word.length; i++) {
     		thisSpaced.push("_ ");
-    		console.log(thisSpaced[thisSpaced.length - 1]);
+    		
     	}
+    	console.log(thisSpaced.join(" "));
     };
     this.letters = [];
     this.guessedLetters = []; // stores guessed letters into this array
     this.wordCorrect = false;
-    this.getLetters = function() {
+    this.getLetters = function(word) {
         for (var i = 0; i < word.length; i++) { //puts new Letter objects in for the word
             var letter = new Letter();
             this.letters.push(letter);
