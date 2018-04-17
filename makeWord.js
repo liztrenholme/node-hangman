@@ -12,53 +12,43 @@ var Letter = require('./letterValidate.js');
 
 // word constructor
 function Word(word, spacedWord, letters, guessedLetters) {
-    //var thisWord = this;
-    //console.log(this);
     this.word = word;
-    // this.spacedWord = function(word) {
-    // 	for (i = 0; i < word.length; i++) {
-
-    // 	}
-    //}; // needs for loop to loop through and add spaces to word
+    this.spaced = [];
+    var thisSpaced = this.spaced;
+    this.match = 0;
+    this.spacedWord = function(word) {
+    	for (i = 0; i < word.length; i++) {
+    		thisSpaced.push("_ ");
+    		console.log(thisSpaced[thisSpaced.length - 1]);
+    	}
+    };
     this.letters = [];
     this.guessedLetters = []; // stores guessed letters into this array
     this.wordCorrect = false;
     this.getLetters = function() {
         for (var i = 0; i < word.length; i++) { //puts new Letter objects in for the word
-            var letter = new Letter(thisWord.word[i]);
+            var letter = new Letter();
             this.letters.push(letter);
         }
     };
-    this.letterCorrect = function(guess) {
-        var match = 0;
-        console.log(letter);
-        console.log(guess);
+    this.letterCorrect = function(letter) {
+        // 
+        this.guessedLetters.push(letter);
         //iterates through each letter to see if it matches the guessed letter
         this.letters.forEach(function(letter) {
-            if (letter.letter === guess) {
+            if (letter.letter === letter) {
                 letter.correct = true;
-                match++;
-                guessedLetters.push(letter);
+                this.match++;
             }
         })
-        // show letter if it is correct
-        return match;
+        //show letter if it is correct
+       return this.match;
     };
     this.showWord = function() {
-        //render the word based on if letters are found or not
         this.letters.forEach(function(letter) {
             var currentLetter = letter.showLetter();
         });
     };
-    //if the current word was guessed
-    this.wordGuessed = function() {
-        if (this.letters.every(function(letter) {
-                return letter.appear === true;
-            })) {
-            this.wordFound = true;
-            return true;
-        }
-    };
-}
+};
 //console.log(word);
 module.exports = Word;

@@ -27,8 +27,9 @@ var guessedLetters = [];
 //console.log(Letter.letter);
 
 function game() {
-	var currentWord = new Word(word);
-	console.log(currentWord);
+    var currentWord = new Word(word);
+    currentWord.spacedWord(word);
+    currentWord.getLetters(word);
     inquirer.prompt([{
         type: "input",
         name: "guess",
@@ -43,22 +44,21 @@ function game() {
         }
     }]).then(function(inquirerResponse) {
         console.log(inquirerResponse.guess);
-
-        
         letter = inquirerResponse.guess.toUpperCase();
         console.log(currentWord.word);
         var guessedAlready = false;
-        // for (var i = 0; i < guessedLetters.length; i++) {
-        //     if (letter === guessedLetters[i]) {
-        //         guessedAlready = true;
-        //     }
-        // }
+        for (var i = 0; i < guessedLetters.length; i++) {
+            if (letter === guessedLetters[i]) {
+                guessedAlready = true;
+            }
+        }
         if (guessedAlready === false && currentWord.word.includes(letter)) {
-            guessedLetters.push(letter);
-            // currentWord.guessedLetters.push(letter);
+            //guessedLetters.push(letter);
+            
+            currentWord.letterCorrect(letter);
             console.log("Guessed already: " + guessedLetters);
             console.log("Correct!");
-            checkWin();
+            console.log(currentWord.word.split(""));
             game();
         } else if (guessedAlready === false && !currentWord.word.includes(letter)) {
             guessesLeft--;
@@ -70,6 +70,8 @@ function game() {
             console.log("You've already guessed that!");
             game();
         }
+
+
 
         if (guessesLeft === 0) {
             console.log("Game over. The word was " + currentWord.word);
@@ -83,19 +85,17 @@ function game() {
             });
         }
 
-        function checkWin(guessedLetters, currentWord) {
-        	console.log(guessedLetters);
-    	// for (var i = 0; i < guessedLetters.length; i++) {
-    	// 	if (currentWord.word.includes(i)) {
-    	// 		currentWord.guessedLetters.push(i);
-    	// 	}
-    	//}
-    // if (guessedAlready.includes(currentWord.word.split(" ")) && guessesLeft > 0) {
-    // 	console.log("You win!");
-    // }
-    }
+
     });
-    
+
+    function checkWin(guessedLetters, currentWord) {
+    	if (currentWord.match === currentWord.word.length) {
+            //if (guessedLetters.includes(currentWord.word.split("")) && guessesLeft > 0) {
+                console.log("You win!");
+            }
+        }
 };
 
 game();
+
+//	if (guessedLetters.includes(currentWord.word.charAt(i))) {
